@@ -3,12 +3,16 @@
 
 plot1 <- function(){
      ##requires dplyr and lubridate library
-
+     
      #reading and filtering data (read 10 rows to check names and skip, seps, etc)
      datos <<- read.table("household_power_consumption.txt", sep = ";", 
                header = TRUE, stringsAsFactors = FALSE, na.strings = "?")
      #changing date class to date
      datos[,1] <- dmy(datos[,1])
+     
+     #reset par if building many plots and scripts
+     par(mfrow=c(1,1), mar=c(5.1,4.1,4.1,2.1))
+     
      #filter interesting data
      plot01 <<- datos%>%
           filter(Date >= ymd(20070201) & Date <= ymd(20070202))%>%

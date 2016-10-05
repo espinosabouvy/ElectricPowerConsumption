@@ -1,5 +1,5 @@
 # Data Exploratory analysis. Coursera
-#script for ploting an histogram for Global Active Power (kw)
+#script for ploting in time 
 
 plot2 <- function(){
      ##requires dplyr and lubridate library
@@ -14,13 +14,18 @@ plot2 <- function(){
      plot02 <<- datos%>%
           filter(Date >= ymd(20070201) & Date <= ymd(20070202))%>%
           select(Date, Time, Global_active_power)
-     xdata <- unique(wday(plot02$Date, label = T))
      
+     #reset par if building many plots and scripts
+     par(mfrow=c(1,1), mar=c(5.1,4.1,4.1,2.1))
      
      #creating histogram and saving as png
      plot(plot02$Global_active_power, type = "l", 
-          ylab = "Global Active Power (kilowatts)",xaxt="n", col = "magenta")
-     axis(side = 1, at = seq(xdata), labels = xdata)
+          ylab = "Global Active Power (kilowatts)", xlab = "", axes = FALSE, col = "red")
+     axis(side = 1, at = c(1,nrow(plot02)),  
+          labels = c(as.character(wday(plot02[1,1], 
+          label = TRUE)),
+          as.character(wday(plot02[nrow(plot02),1],label = T))))
+     axis(2)
      box()
      
      #creating png
